@@ -1,0 +1,63 @@
+# fullstack-quiz/docker-compose.yml
+
+version: '3.8'
+
+services:
+  # NestJS application service
+  server:
+    build: ./server
+    container_name: quiz_server
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./server/src:/usr/src/app/src
+      - ./server/package.json:/usr/src/app/package.json
+      - ./server/tsconfig.json:/usr/src/app/tsconfig.json
+      - node_modules_server:/usr/src/app/node_modules
+    env_file:
+      - ./server/.env
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+    restart: always
+    command: sh -c "npm install && npm run start:dev"
+
+  # Next.js client application service
+  client:
+    build: ./client
+    container_name: quiz_client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - server
+    command: npm run dev
+
+  # MySQL database service
+  mysql_db:
+    image: mysql:8.0
+    container_name: quiz_mysql_db
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./server/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "root", "-p${DB_PASSWORD}", "-e", "SELECT 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+# Define volumes for persistent data storage
+volumes:
+  db_data: {}
+  node_modules_server: {}

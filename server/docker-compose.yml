@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # NestJS application service
+  nestjs_app:
+    build: .
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./package.json:/usr/src/app/package.json
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - node_modules_volume:/usr/src/app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+    restart: always
+    command: sh -c "npm install --legacy-peer-deps && npm run start:dev"
+
+  # MySQL database service
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysql_db
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "root", "-p${DB_PASSWORD}", "-e", "SELECT 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+# Define volumes for persistent data storage
+volumes:
+  db_data: {}
+  node_modules_volume: {}
