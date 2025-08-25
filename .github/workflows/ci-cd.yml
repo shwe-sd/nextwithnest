@@ -27,7 +27,7 @@ jobs:
           node-version: '18'
 
       - name: Install server dependencies
-        run: npm install --prefix ./server
+        run: npm install --prefix ./server --legacy-peer-deps
 
       - name: Run server tests
         run: npm test --prefix ./server
@@ -47,7 +47,7 @@ jobs:
           node-version: '18'
 
       - name: Install client dependencies
-        run: npm install --prefix ./client
+        run: npm install --prefix ./client --legacy-peer-deps
 
       - name: Run client tests
         run: npm test --prefix ./client
