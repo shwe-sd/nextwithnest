@@ -11,7 +11,7 @@ async function bootstrap() {
 
   // ✅ Enable CORS for your React frontend
   app.enableCors({
-    origin: 'http://3.26.99.48:3000', // React dev server
+    origin: 'http://localhost:3000', // React dev server
     credentials: true,
   });
 
