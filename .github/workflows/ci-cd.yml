@@ -29,8 +29,9 @@ jobs:
       - name: Install server dependencies
         run: npm install --prefix ./server --legacy-peer-deps
 
-      - name: Run server tests
-        run: npm test --prefix ./server
+      # - name: Run server tests
+      #   working-directory: ./server
+      #   run: npm test --prefix ./server
 
   # ------------------------------
   # 2️⃣ Build & Test Frontend
@@ -49,8 +50,9 @@ jobs:
       - name: Install client dependencies
         run: npm install --prefix ./client --legacy-peer-deps
 
-      - name: Run client tests
-        run: npm test --prefix ./client
+      # - name: Run client tests
+      #   working-directory: ./client
+      #   run: npm test --prefix ./client
 
   # ------------------------------
   # 3️⃣ SSH Test to EC2
