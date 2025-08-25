@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { logoutUser } from '@/utils/auth';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5002/api',
+  baseURL: 'http://quiz_server:5002/api',
 });
 
 // Request Interceptor: Attach token to every request
