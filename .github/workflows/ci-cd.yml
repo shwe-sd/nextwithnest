@@ -87,12 +87,13 @@ jobs:
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
             cd /home/ec2-user/nextwithnest
             git reset --hard
             git pull origin main
             docker-compose down
+            docker system prune -af
             docker-compose up -d --build
