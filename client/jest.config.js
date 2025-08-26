@@ -9,13 +9,9 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
-  // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  
-  // Set the test environment to a browser-like environment
   testEnvironment: 'jest-environment-jsdom',
-  
-  // Map module aliases defined in tsconfig.json to Jest's module resolver
+
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/src/components/$1',
     '^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
@@ -25,6 +21,13 @@ const customJestConfig = {
     '^@/utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@/styles/(.*)$': '<rootDir>/src/styles/$1',
   },
+
+  // Ignore VS Code folders and any other irrelevant paths
+  modulePathIgnorePatterns: [
+    '/Downloads/Visual Studio Code',
+    '/node_modules/',
+    '/.next/',
+  ],
 };
 
 // Export the combined Next.js and custom Jest configuration
