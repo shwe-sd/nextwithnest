@@ -6,13 +6,22 @@ async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
 
-  // Set global prefix (so all routes start with /api)
+  const whitelist = [
+    'http://localhost:3000',
+    'http://3.26.99.48:3000', // live client
+  ];
+
   app.setGlobalPrefix('api');
 
-  // ✅ Enable CORS for your React frontend
   app.enableCors({
-    origin: 'http://3.26.99.48:3000', // React dev server
+    origin: (origin, cb) => {
+      if (!origin || whitelist.includes(origin)) return cb(null, true);
+      return cb(new Error('Not allowed by CORS'));
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // ✅ allow preflight
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'], // ✅ allow headers
+    optionsSuccessStatus: 204, // ✅ make OPTIONS return 204 with headers
   });
 
   await app.listen(5002);
