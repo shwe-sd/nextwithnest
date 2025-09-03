@@ -10,6 +10,6 @@ import { User } from '../entities/user.entity';
   imports: [TypeOrmModule.forFeature([User]), HttpModule],
   controllers: [AuthController],
   providers: [AuthService, InvolveAsiaAuthService],
-  exports: [InvolveAsiaAuthService], // <-- This is the new line
+  exports: [InvolveAsiaAuthService], 
 })
 export class AuthModule {}

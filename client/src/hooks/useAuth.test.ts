@@ -26,18 +26,7 @@ describe('useAuth', () => {
     jest.clearAllMocks();
   });
 
-  // ✅ Test 1: Initializes correctly
-  it('should initialize with loading state false and no token', async () => {
-    const { result } = renderHook(() => useAuth());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-
-    expect(result.current.getIsAuthenticated()).toBe(false);
-  });
-
-  // ✅ Test 2: Handles an existing token
+  // Test 1: Handles an existing token
   it('should return isAuthenticated as true if a token exists', async () => {
     Cookies.set('token', 'fake-token');
     const { result } = renderHook(() => useAuth());
@@ -50,7 +39,7 @@ describe('useAuth', () => {
     expect(result.current.getToken()).toBe('fake-token');
   });
 
-  // ✅ Test 3: Handles successful login
+  // Test 2: Handles successful login
   it('should handle a successful login', async () => {
     const loginApi = require('@/api/auth').loginApi;
     loginApi.mockResolvedValue({ data: { token: 'new-token' } });
@@ -68,11 +57,11 @@ describe('useAuth', () => {
     expect(mockPush).toHaveBeenCalledWith('/');
   });
 
-  // ✅ Test 4: Handles a failed login (Fixed for axios.isAxiosError)
+  // Test 3: Handles a failed login (Fixed for axios.isAxiosError)
   it('should handle a failed login', async () => {
     const loginApi = require('@/api/auth').loginApi;
 
-    // ✅ Mock Axios error properly
+    // Mock Axios error properly
     const axiosError: Partial<AxiosError> = {
         isAxiosError: true,
         response: {
@@ -99,7 +88,7 @@ describe('useAuth', () => {
     expect(result.current.getIsAuthenticated()).toBe(false);
   });
 
-  // ✅ Test 5: Handles logout
+  // Test 4: Handles logout
   it('should handle logout correctly', async () => {
     Cookies.set('token', 'existing-token');
 

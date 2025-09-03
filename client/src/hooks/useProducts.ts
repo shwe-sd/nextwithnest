@@ -5,10 +5,10 @@ import { getProductsApi } from '@/api/products';
 import { Product } from '@/types/products';
 
 export interface ProductFilters {
-  shop_name?: string;
-  shop_type?: 'mall' | 'preferred' | '';
-  sort_type?: 'latest_updated' | 'high_commission' | '';
-  country?: 'Malaysia' | 'Singapore' | 'Indonesia' | 'Thailand' | 'Vietnam' | 'Philippines' | 'Taiwan' | '';
+  shop_name: string;
+  shop_type: 'mall' | 'preferred' | '';
+  sort_type: 'latest_updated' | 'high_commission' | '';
+  country: 'Malaysia' | 'Singapore' | 'Indonesia' | 'Thailand' | 'Vietnam' | 'Philippines' | 'Taiwan' | '';
 }
 
 export const useProducts = (filters: ProductFilters) => {

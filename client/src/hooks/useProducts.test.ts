@@ -63,7 +63,12 @@ describe('useProducts hook', () => {
       },
     });
 
-    const filters: ProductFilters = { shop_type: 'mall' };
+    const filters: ProductFilters = {
+      shop_type: 'mall',
+      shop_name: '',
+      sort_type: '',
+      country: ''
+    };
 
     // Act: render the hook
     const { result } = renderHook(() => useProducts(filters));
@@ -76,17 +81,22 @@ describe('useProducts hook', () => {
     expect(result.current.products).toEqual(mockProducts);
     expect(result.current.error).toBeNull();
     expect(mockGetProductsApi).toHaveBeenCalledWith({
-      shop_name: undefined,
+      shop_name: '',
       shop_type: 'mall',
-      sort_type: undefined,
-      country: undefined,
+      sort_type: '',
+      country: '',
     });
   });
 
   it('should handle API failure', async () => {
     mockGetProductsApi.mockRejectedValue(new Error('API error'));
 
-    const filters: ProductFilters = {};
+    const filters: ProductFilters = {
+      shop_name: '',
+      shop_type: '',
+      sort_type: '',
+      country: ''
+    };
 
     const { result } = renderHook(() => useProducts(filters));
 

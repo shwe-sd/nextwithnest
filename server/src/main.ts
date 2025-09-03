@@ -8,6 +8,8 @@ async function bootstrap() {
 
   const whitelist = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    // 'http://172.18.0.4:3000',
     'http://3.26.99.48:3000', // live client
   ];
 
@@ -24,6 +26,7 @@ async function bootstrap() {
     optionsSuccessStatus: 204, // ✅ make OPTIONS return 204 with headers
   });
 
-  await app.listen(5002);
+  // await app.listen(5002, '0.0.0.0');   // EC2 / accessible from other hosts
+  await app.listen(5002, '0.0.0.0'); // local dev only
 }
 bootstrap();

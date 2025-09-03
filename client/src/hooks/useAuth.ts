@@ -12,11 +12,6 @@ export const useAuth = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // This runs only on the client-side
-    const token = Cookies.get('token');
-    if (token) {
-      // In a real app, you might validate the token here
-    }
     setLoading(false);
   }, []);
 
@@ -46,7 +41,7 @@ export const useAuth = () => {
       const res = await signupApi(data);
       Cookies.set('token', res.data.token, { expires: 7 });
       window.dispatchEvent(new Event('auth-status-changed'));
-      router.push('/profile');
+      router.push('/');
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         const errorMessages = Array.isArray(err.response.data.message)

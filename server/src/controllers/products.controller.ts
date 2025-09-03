@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../guards/jwt.auth.guard';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getProducts(
     @Res() res,
